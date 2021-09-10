@@ -61,7 +61,9 @@ func (r *PostgresqlRepository) ImproveUserBalance(userId uint64, value float64) 
 	if err = row.Scan(
 		&userBalance.Balance,
 	); err != nil {
-		tx.Rollback()
+		if err := tx.Rollback(); err != nil {
+			return nil, repository_errors.PgInternalDbError
+		}
 		return nil, repository_errors.PgCanNotUpdate
 	}
 
@@ -77,7 +79,9 @@ func (r *PostgresqlRepository) ImproveUserBalance(userId uint64, value float64) 
 	)
 
 	if err != nil {
-		tx.Rollback()
+		if err := tx.Rollback(); err != nil {
+			return nil, repository_errors.PgInternalDbError
+		}
 		return nil, repository_errors.PgInternalDbError
 	}
 
@@ -115,11 +119,15 @@ func (r *PostgresqlRepository) WithdrawUserBalance(userId uint64, value float64)
 				"WHERE user_id = $1",
 			userId,
 		).Scan(&balance); err != nil {
-			tx.Rollback()
+			if err := tx.Rollback(); err != nil {
+				return nil, repository_errors.PgInternalDbError
+			}
 			return nil, repository_errors.PgCanNotFind
 		}
 
-		tx.Rollback()
+		if err := tx.Rollback(); err != nil {
+			return nil, repository_errors.PgInternalDbError
+		}
 		return nil, repository_errors.PgCanNotUpdate
 	}
 
@@ -135,7 +143,9 @@ func (r *PostgresqlRepository) WithdrawUserBalance(userId uint64, value float64)
 	)
 
 	if err != nil {
-		tx.Rollback()
+		if err := tx.Rollback(); err != nil {
+			return nil, repository_errors.PgInternalDbError
+		}
 		return nil, repository_errors.PgInternalDbError
 	}
 
@@ -174,11 +184,15 @@ func (r *PostgresqlRepository) DoUserBalanceTransfer(transfer *models.Transfer) 
 				"WHERE user_id = $1",
 			transfer.SenderId,
 		).Scan(&balance); err != nil {
-			tx.Rollback()
+			if err := tx.Rollback(); err != nil {
+				return nil, repository_errors.PgInternalDbError
+			}
 			return nil, repository_errors.PgCanNotFind
 		}
 
-		tx.Rollback()
+		if err := tx.Rollback(); err != nil {
+			return nil, repository_errors.PgInternalDbError
+		}
 		return nil, repository_errors.PgCanNotUpdate
 	}
 
@@ -202,11 +216,15 @@ func (r *PostgresqlRepository) DoUserBalanceTransfer(transfer *models.Transfer) 
 				"WHERE user_id = $1",
 			transfer.SenderId,
 		).Scan(&balance); err != nil {
-			tx.Rollback()
+			if err := tx.Rollback(); err != nil {
+				return nil, repository_errors.PgInternalDbError
+			}
 			return nil, repository_errors.PgCanNotFind
 		}
 
-		tx.Rollback()
+		if err := tx.Rollback(); err != nil {
+			return nil, repository_errors.PgInternalDbError
+		}
 		return nil, repository_errors.PgCanNotUpdate
 	}
 
@@ -223,7 +241,9 @@ func (r *PostgresqlRepository) DoUserBalanceTransfer(transfer *models.Transfer) 
 	)
 
 	if err != nil {
-		tx.Rollback()
+		if err := tx.Rollback(); err != nil {
+			return nil, repository_errors.PgInternalDbError
+		}
 		return nil, repository_errors.PgInternalDbError
 	}
 
@@ -239,7 +259,9 @@ func (r *PostgresqlRepository) DoUserBalanceTransfer(transfer *models.Transfer) 
 	)
 
 	if err != nil {
-		tx.Rollback()
+		if err := tx.Rollback(); err != nil {
+			return nil, repository_errors.PgInternalDbError
+		}
 		return nil, repository_errors.PgInternalDbError
 	}
 

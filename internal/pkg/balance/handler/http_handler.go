@@ -69,7 +69,7 @@ func (h *BalanceHandler) WithdrawUserBalance(w http.ResponseWriter, r *http.Requ
 }
 
 func (h *BalanceHandler) ImproveUserBalance(w http.ResponseWriter, r *http.Request) {
-	improveBalance := &models.WithdrawBalance{}
+	improveBalance := &models.ImproveBalance{}
 	if err := http_utils.ParseBody(r, improveBalance); err != nil {
 		http_utils.SetJSONResponse(w, handler_errors.HttpIncorrectRequestBody, http.StatusBadRequest)
 		return
