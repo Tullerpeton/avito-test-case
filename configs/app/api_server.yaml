@@ -1,0 +1,17 @@
+postgresql-data:
+  user: "postgres"
+  password: "postgres"
+  db-name: "api_db"
+  port: "5432"
+  host: "localhost"
+  sslmode: "disable"
+
+server-data:
+  host: ""
+  port: "8080"
+
+currency-converter:
+  access-secret: "a07e131b2255c3ae4f49833dcceebf40"
+  base-currency: "RUB"
+  format: "1"
+  http-url: "http://api.exchangeratesapi.io/v1/latest"
