@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -48,16 +46,8 @@ func (h *BalanceHandler) GetUserBalance(w http.ResponseWriter, r *http.Request) 
 }
 
 func (h *BalanceHandler) WithdrawUserBalance(w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		http_utils.SetJSONResponse(w, handler_errors.HttpIncorrectRequestBody, http.StatusBadRequest)
-		return
-	}
-	defer r.Body.Close()
-
 	withdrawBalance := &models.WithdrawBalance{}
-	err = json.Unmarshal(body, withdrawBalance)
-	if err != nil {
+	if err := http_utils.ParseBody(r, withdrawBalance); err != nil {
 		http_utils.SetJSONResponse(w, handler_errors.HttpIncorrectRequestBody, http.StatusBadRequest)
 		return
 	}
@@ -79,16 +69,8 @@ func (h *BalanceHandler) WithdrawUserBalance(w http.ResponseWriter, r *http.Requ
 }
 
 func (h *BalanceHandler) ImproveUserBalance(w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		http_utils.SetJSONResponse(w, handler_errors.HttpIncorrectRequestBody, http.StatusBadRequest)
-		return
-	}
-	defer r.Body.Close()
-
 	improveBalance := &models.WithdrawBalance{}
-	err = json.Unmarshal(body, improveBalance)
-	if err != nil {
+	if err := http_utils.ParseBody(r, improveBalance); err != nil {
 		http_utils.SetJSONResponse(w, handler_errors.HttpIncorrectRequestBody, http.StatusBadRequest)
 		return
 	}
@@ -107,16 +89,8 @@ func (h *BalanceHandler) ImproveUserBalance(w http.ResponseWriter, r *http.Reque
 }
 
 func (h *BalanceHandler) MakeUserBalanceTransfer(w http.ResponseWriter, r *http.Request) {
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		http_utils.SetJSONResponse(w, handler_errors.HttpIncorrectRequestBody, http.StatusBadRequest)
-		return
-	}
-	defer r.Body.Close()
-
 	transfer := &models.Transfer{}
-	err = json.Unmarshal(body, transfer)
-	if err != nil {
+	if err := http_utils.ParseBody(r, transfer); err != nil {
 		http_utils.SetJSONResponse(w, handler_errors.HttpIncorrectRequestBody, http.StatusBadRequest)
 		return
 	}
