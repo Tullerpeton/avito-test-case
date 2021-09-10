@@ -1,7 +1,7 @@
 name: Build
 
 env:
-  SERVICE_TAG: v1.7
+  SERVICE_TAG: v1.0
 
 
 on:

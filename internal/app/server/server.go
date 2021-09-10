@@ -21,7 +21,7 @@ import (
 
 func Start() {
 	// Init config
-	configer.Init("configs/app/api_server.yaml")
+	configer.Init("configs/app/balance_service.yaml")
 
 	// Connect to postgreSql db
 	postgreSqlConn, err := sqlx.Open(
