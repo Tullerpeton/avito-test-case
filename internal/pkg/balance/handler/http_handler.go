@@ -98,7 +98,7 @@ func (h *BalanceHandler) MakeUserBalanceTransfer(w http.ResponseWriter, r *http.
 	transferResult, err := h.balanceUCase.MakeUserBalanceTransfer(transfer)
 	switch err {
 	case usecase_errors.UcUserBalanceNotFound:
-		http_utils.SetJSONResponse(w, handler_errors.HttpUserBalanceNotFound, http.StatusForbidden)
+		http_utils.SetJSONResponse(w, handler_errors.HttpCanNotMakeOperation, http.StatusConflict)
 		return
 	case usecase_errors.UcInternalServerError:
 		http_utils.SetJSONResponse(w, handler_errors.HttpInternalServerError, http.StatusInternalServerError)

@@ -168,13 +168,13 @@ func (r *PostgresqlRepository) DoUserBalanceTransfer(transfer *models.Transfer) 
 	}
 
 	err = tx.QueryRow(
-		"UPDATE balances SET "+
-			"balance = balance - $2 "+
-			"WHERE user_id = $1 "+
-			"RETURNING balance",
+		"UPDATE balances AS b SET "+
+			"balance = b.balance - $2 "+
+			"WHERE b.user_id = $1 "+
+			"RETURNING b.balance",
 		transfer.SenderId,
 		transfer.Value,
-	).Scan(transferResult.Sender.Balance)
+	).Scan(&transferResult.Sender.Balance)
 
 	if err != nil {
 		var balance float64
@@ -197,16 +197,16 @@ func (r *PostgresqlRepository) DoUserBalanceTransfer(transfer *models.Transfer) 
 	}
 
 	err = tx.QueryRow(
-		"INSERT INTO balances (user_id, balance)"+
+		"INSERT INTO balances AS b (user_id, balance)"+
 			"VALUES ($1, $2) "+
 			"ON CONFLICT (user_id) "+
-			"UPDATE balances SET "+
-			"balance = balance + $2 "+
-			"WHERE user_id = $1 "+
-			"RETURNING balance",
+			"DO UPDATE SET "+
+			"balance = b.balance + $2 "+
+			"WHERE b.user_id = $1 "+
+			"RETURNING b.balance",
 		transfer.ReceiverId,
 		transfer.Value,
-	).Scan(transferResult.Receiver.Balance)
+	).Scan(&transferResult.Receiver.Balance)
 
 	if err != nil {
 		var balance float64
@@ -231,7 +231,7 @@ func (r *PostgresqlRepository) DoUserBalanceTransfer(transfer *models.Transfer) 
 	typeOperation := "transfer"
 	_, err = tx.Exec(
 		"INSERT INTO transactions(type_operation, user_id, context, value) "+
-			"SELECT name, $1, $2, $3 "+
+			"SELECT id, $1, $2, $3 "+
 			"FROM transaction_types "+
 			"WHERE title = $4",
 		transfer.ReceiverId,
@@ -249,7 +249,7 @@ func (r *PostgresqlRepository) DoUserBalanceTransfer(transfer *models.Transfer) 
 
 	_, err = tx.Exec(
 		"INSERT INTO transactions(type_operation, user_id, context, value) "+
-			"SELECT name, $1, $2, $3 "+
+			"SELECT id, $1, $2, $3 "+
 			"FROM transaction_types "+
 			"WHERE title = $4",
 		transfer.SenderId,

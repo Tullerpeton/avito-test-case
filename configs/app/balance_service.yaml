@@ -3,7 +3,8 @@ postgresql-data:
   password: "postgres"
   db-name: "balance_service_db"
   port: "5432"
-  host: "service-db"
+#  host: "service-db"
+  host: "localhost"
   sslmode: "disable"
 
 server-data:
