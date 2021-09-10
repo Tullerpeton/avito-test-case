@@ -1,9 +1,9 @@
 postgresql-data:
   user: "postgres"
   password: "postgres"
-  db-name: "api_db"
+  db-name: "balance_service_db"
   port: "5432"
-  host: "localhost"
+  host: "service-db"
   sslmode: "disable"
 
 server-data:
