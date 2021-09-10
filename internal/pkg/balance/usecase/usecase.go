@@ -49,7 +49,7 @@ func (u *BalanceUseCase) WithdrawUserBalance(withdrawBalance *models.WithdrawBal
 	}
 }
 
-func (u *BalanceUseCase) ImproveUserBalance(improveBalance *models.WithdrawBalance) (*models.UserBalance, error) {
+func (u *BalanceUseCase) ImproveUserBalance(improveBalance *models.ImproveBalance) (*models.UserBalance, error) {
 	updatedUserBalance, err := u.balanceRepo.ImproveUserBalance(improveBalance.Id, improveBalance.Value)
 	switch err {
 	case nil:
