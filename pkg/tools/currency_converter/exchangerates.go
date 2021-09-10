@@ -20,7 +20,6 @@ type convertResponse struct {
 	Rates   map[string]float64 `json:"rates"`
 }
 
-
 func ConvertCurrency(balance float64, currencyToConvert string) (float64, error) {
 	client := &http.Client{
 		Timeout: time.Second * 10,
